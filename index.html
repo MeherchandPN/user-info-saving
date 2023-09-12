@@ -50,11 +50,36 @@
 		button:hover {
 			background-color: #45a049;
 		}
+
+		/* Style error message */
+        .error {
+            color: red;
+        }
 	</style>
 	<script src="https://code.jquery.com/jquery-3.4.1.js"
 		integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
 	<script>
+		function validateMobileNumber(mobileNumber) {
+            // Define your mobile number validation criteria here
+            // For example, let's assume it should be exactly 10 digits
+            const regex = /^\d{10}$/;
+            return regex.test(mobileNumber);
+        }
+
 		function SubForm() {
+			const mobileNumberInput = document.getElementById('mobile_number');
+            const mobileNumber = mobileNumberInput.value;
+
+            if (!validateMobileNumber(mobileNumber)) {
+                // Mobile number validation failed
+                const errorMessage = 'Please enter a valid 10-digit mobile number.';
+                document.getElementById('mobile_number_error').textContent = errorMessage;
+                return;
+            }
+
+            // Clear any previous error message
+            document.getElementById('mobile_number_error').textContent = '';
+
 			$.ajax({
 				url: "https://api.apispreadsheets.com/data/1Qpukils2CoeLWFX/",
 				type: "post",
