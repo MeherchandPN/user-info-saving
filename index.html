@@ -1,73 +1,68 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-	<title>Save Web Form Data to Spreadsheets</title>
-	<style>
-		#myFormContainer {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			width: 300px;
-			margin: 0 auto;
-			padding: 20px;
-			border: 1px solid #ccc;
-			border-radius: 4px;
-		}
+    <title>Save Web Form Data to Spreadsheets</title>
+    <script
+        src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+        crossorigin="anonymous"></script>
+    <style>
+        /* Style the form container */
+        #myFormContainer {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 300px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
 
-		/* Style the form container */
-		#myFormContainer {
-			width: 300px;
-			margin: 0 auto;
-		}
+        /* Style labels */
+        label {
+            margin-bottom: 5px;
+        }
 
-		/* Style labels */
-		label {
-			display: block;
-			margin-bottom: 5px;
-		}
+        /* Style input fields */
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
 
-		/* Style input fields */
-		input {
-			width: 100%;
-			padding: 8px;
-			margin-bottom: 10px;
-			border: 1px solid #ccc;
-			border-radius: 4px;
-		}
+        /* Style the submit button */
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
 
-		/* Style the submit button */
-		button {
-			background-color: #4CAF50;
-			color: white;
-			padding: 10px 15px;
-			border: none;
-			border-radius: 4px;
-			cursor: pointer;
-		}
+        /* Style the submit button on hover */
+        button:hover {
+            background-color: #45a049;
+        }
 
-		/* Style the submit button on hover */
-		button:hover {
-			background-color: #45a049;
-		}
-
-		/* Style error message */
+        /* Style error message */
         .error {
             color: red;
         }
-	</style>
-	<script src="https://code.jquery.com/jquery-3.4.1.js"
-		integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
-	<script>
-		function validateMobileNumber(mobileNumber) {
+    </style>
+    <script>
+        function validateMobileNumber(mobileNumber) {
             // Define your mobile number validation criteria here
             // For example, let's assume it should be exactly 10 digits
             const regex = /^\d{10}$/;
             return regex.test(mobileNumber);
         }
 
-		function SubForm() {
-			const mobileNumberInput = document.getElementById('mobile_number');
+        function SubForm (){
+            const mobileNumberInput = document.getElementById('mobile_number');
             const mobileNumber = mobileNumberInput.value;
 
             if (!validateMobileNumber(mobileNumber)) {
@@ -80,33 +75,31 @@
             // Clear any previous error message
             document.getElementById('mobile_number_error').textContent = '';
 
-			$.ajax({
-				url: "https://api.apispreadsheets.com/data/1Qpukils2CoeLWFX/",
-				type: "post",
-				data: $("#myForm").serializeArray(),
-				success: function () {
-					alert("Form Data Submitted :)")
-				},
-				error: function () {
-					alert("There was an error :(")
-				}
-			});
-		}
-	</script>
+            // If mobile number is valid, proceed with form submission
+            $.ajax({
+                url:"https://api.apispreadsheets.com/data/1Qpukils2CoeLWFX/",
+                type:"post",
+                data:$("#myForm").serializeArray(),
+                success: function(){
+                    alert("Form Data Submitted :)")
+                },
+                error: function(){
+                    alert("There was an error :(")
+                }
+            });
+        }
+    </script>
 </head>
-
 <body>
-	<div id="myFormContainer">
-		<form id="myForm">
-			<label>name</label>
-			<input name="name" />
-			<br />
-			<label>mobile_number</label>
-			<input name="mobile_number" />
-			<br />
-		</form>
-	</div>
-	<button onclick='SubForm()'>Submit</button>
+    <div id="myFormContainer">
+        <form id="myForm">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" />
+            <label for="mobile_number">Mobile Number</label>
+            <input type="text" id="mobile_number" name="mobile_number" />
+            <span class="error" id="mobile_number_error"></span>
+        </form>
+        <button onclick='SubForm()'>Submit</button>
+    </div>
 </body>
-
 </html>
